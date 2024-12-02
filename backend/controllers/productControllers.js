@@ -3,15 +3,12 @@ const productsModel = require("../models/productsModel");
 
 const getProducts = async (req, res, next) => {
   try {
-    let query = req.query.keyword
-      ? {
-          name: {
-            $regex: req.query.keyword,
-            $options: "i",
-          },
-        }
-      : {};
-    const products = await productsModel.find(query);
+    const query = req.query.keyword?{ name : { 
+        $regex: req.query.keyword,
+        $options: 'i'
+     }}:{}
+    let products = await productsModel.find(query);
+    if(products.length === 0)   products = await productsModel.find({});
     res.status(200).json(products);
   } catch (error) {
     res.status(400).json({ message: error.message });
