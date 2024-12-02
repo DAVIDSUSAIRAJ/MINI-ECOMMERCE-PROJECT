@@ -5,13 +5,20 @@ import axios from "axios";
 const Home = () => {
   const [products, setProducts] = useState([]);
 
-  useEffect(async () => {
-    console.log(process.env);
+  useEffect( () => {
+    const fetchProducts = async () => {
+        try {
+            console.log(process.env);
+            let productsCard = await axios.get(
+                process.env.REACT_APP_API_URLP + "/products/"
+            );
+            setProducts(productsCard.data);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
 
-    let productsCard = await axios.get(
-      process.env.REACT_APP_API_URLP + "/products/"
-    );
-    setProducts(productsCard);
+    fetchProducts();
   }, []);
 
   return (
@@ -20,7 +27,10 @@ const Home = () => {
 
       <section id="products" className="container mt-5">
         <div className="row">
-          <ProductCard />
+            {
+                products.map((product)=>   <ProductCard product = {product} />)
+            }
+       
         </div>
       </section>
     </>
