@@ -8,6 +8,7 @@ import {
 import React, { Suspense, lazy } from "react";
 
 
+
 const Header = lazy(() => import("./components/Header"));
 const Home = lazy(() => import("./pages/Home"));
 const Footer = lazy(() => import("./components/Footer"));
@@ -15,6 +16,8 @@ const Footer = lazy(() => import("./components/Footer"));
 
 
 function App() {
+
+
   return (
     <div className="App">
       

@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
+
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [searchParam,setSearchParam] = useSearchParams();
 
   useEffect( () => {
+
     const fetchProducts = async () => {
         try {
             console.log(process.env);
             let productsCard = await axios.get(
-                process.env.REACT_APP_API_URLP + "/products/"
+                process.env.REACT_APP_API_URLP + "/products/?"+searchParam
             );
             setProducts(productsCard.data);
         } catch (error) {
@@ -19,7 +23,7 @@ const Home = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [searchParam]);
 
   return (
     <>
