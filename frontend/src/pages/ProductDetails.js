@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast} from "react-toastify"; // Import Toast
 
-const ProductDetails = () => {
+const ProductDetails = ({cartItems, setCartItems}) => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
+  const [qty,setQty] = useState("1")
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -21,6 +23,17 @@ const ProductDetails = () => {
 
     fetchProduct();
   }, [id]);
+const addToCart =()=>{
+  let newItem = {product,qty};
+
+  const itemExist = cartItems.find((cardItem)=>product._id ===cardItem.product._id )
+  if(!itemExist){
+  setCartItems((preState)=>[...preState,newItem])
+  toast.success("Cart item added successfully");
+  }
+
+}
+
   return (
     product.length !== 0 && (
       <>
@@ -36,25 +49,25 @@ const ProductDetails = () => {
             </div>
 
             <div class="col-12 col-lg-5 mt-5">
-              <h3>Dell Inspiron 3511 Laptop, Intel i3-1115G4, 8GB, 512GB</h3>
-              <p id="product_id">Product # 387874kkfjkf</p>
+              <h3>{product.name}</h3>
+              <p id="product_id">Product # {product._id}</p>
 
               <hr />
 
               <div class="rating-outer">
-                <div class="rating-inner" style={{ width: "100%" }}></div>
+                <div class="rating-inner" style={{ width: `${product.ratings/5 *100}%`}}></div>
               </div>
 
               <hr />
 
-              <p id="product_price">$456.00</p>
+              <p id="product_price">{product.price}</p>
               <div class="stockCounter d-inline">
                 <span class="btn btn-danger minus">-</span>
 
                 <input
                   type="number"
                   class="form-control count d-inline"
-                  value="1"
+                  value={qty}
                   readOnly
                 />
 
@@ -64,6 +77,7 @@ const ProductDetails = () => {
                 type="button"
                 id="cart_btn"
                 class="btn btn-primary d-inline ml-4"
+                onClick={addToCart}
               >
                 Add to Cart
               </button>
@@ -71,21 +85,18 @@ const ProductDetails = () => {
               <hr />
 
               <p>
-                Status: <span id="stock_status">In Stock</span>
+                Status: <span id="stock_status" className={product.stock>0 ? "text-success":"text-danger"}>{product.stock>0 ?"In Stock":"Out of stock"}</span>
               </p>
 
               <hr />
 
               <h4 class="mt-2">Description:</h4>
               <p>
-                Processor: Intel i5-1235U (3.30 GHz up to 4.40 GHz), 10 Cores &
-                12MB Cache RAM & Storage: 8GB, 8Gx1, DDR4, 2666MHz Ach & 512GB
-                SSD Display & Graphics: 15.6" FHD WVA AG 120Hz 250 nits Narrow
-                Border & Integrated Graphics
+               {product.description}
               </p>
               <hr />
               <p id="product_seller mb-3">
-                Sold by: <strong>Amazon</strong>
+                Sold by: <strong>{product.seller}</strong>
               </p>
 
               <div class="rating w-50"></div>

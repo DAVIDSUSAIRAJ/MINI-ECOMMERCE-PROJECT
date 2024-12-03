@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import SeachBar from "./SearchBar";
 
-const Header = () => {
+const Header = ({cartItems}) => {
   return (
     <>
       <nav className="navbar row">
@@ -20,7 +20,7 @@ const Header = () => {
             Cart
           </span>
           <span className="ml-1" id="cart_count">
-            2
+            {cartItems.length}
           </span>
         </div>
       </nav>
