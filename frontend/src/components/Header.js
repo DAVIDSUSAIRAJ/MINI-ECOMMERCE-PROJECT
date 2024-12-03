@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import SeachBar from "./SearchBar";
 
 const Header = () => {
@@ -6,7 +7,9 @@ const Header = () => {
       <nav className="navbar row">
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
-            <img width="150px" src="./images/logo.png" />
+            <Link to="/">
+            <img width="150px" src="../images/logo.png" alt="LogoImg" />
+            </Link>
           </div>
         </div>
         <div className="col-12 col-md-6 mt-2 mt-md-0">

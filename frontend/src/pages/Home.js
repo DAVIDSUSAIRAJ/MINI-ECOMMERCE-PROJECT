@@ -6,13 +6,12 @@ import { useSearchParams } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [searchParam,setSearchParam] = useSearchParams();
+  const [searchParam] = useSearchParams();
 
   useEffect( () => {
 
     const fetchProducts = async () => {
         try {
-            console.log(process.env);
             let productsCard = await axios.get(
                 process.env.REACT_APP_API_URLP + "/products/?"+searchParam
             );

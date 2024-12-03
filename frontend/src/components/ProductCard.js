@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 const ProductCard = ({product})=>{
-  console.log(product,"product")
   const productFirstimg = product.images[0].image;
   const productName = product.name;
   const productPrice = `$ ${product.price}`
@@ -12,6 +11,7 @@ const ProductCard = ({product})=>{
               <img
                 className="card-img-top mx-auto"
                 src={productFirstimg}
+                alt="productImg"
               />
               <div className="card-body d-flex flex-column">
                 <h5 className="card-title">
