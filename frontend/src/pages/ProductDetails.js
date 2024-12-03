@@ -6,7 +6,7 @@ import { toast} from "react-toastify"; // Import Toast
 const ProductDetails = ({cartItems, setCartItems}) => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
-  const [qty,setQty] = useState("1")
+  const [qty,setQty] = useState(1)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -32,6 +32,14 @@ const addToCart =()=>{
   toast.success("Cart item added successfully");
   }
 
+}
+const increaseQty = ()=>{
+  if(Number(product.stock) === qty)return;
+  setQty((qty)=>qty+1)
+}
+const decreaseQty = ()=>{
+  if(qty === 1)return;
+  setQty((qty)=>qty-1)
 }
 
   return (
@@ -62,7 +70,7 @@ const addToCart =()=>{
 
               <p id="product_price">{product.price}</p>
               <div class="stockCounter d-inline">
-                <span class="btn btn-danger minus">-</span>
+                <span class="btn btn-danger minus" onClick={decreaseQty}>-</span>
 
                 <input
                   type="number"
@@ -71,7 +79,7 @@ const addToCart =()=>{
                   readOnly
                 />
 
-                <span class="btn btn-primary plus">+</span>
+                <span class="btn btn-primary plus" onClick={increaseQty}>+</span>
               </div>
               <button
                 type="button"
