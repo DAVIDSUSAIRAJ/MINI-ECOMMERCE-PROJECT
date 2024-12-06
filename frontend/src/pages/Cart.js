@@ -1,7 +1,11 @@
+import axios from "axios"
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast} from "react-toastify"; // Import Toast
 
 const Cart = ({cartItems,setCartItems}) => {
     console.log(cartItems,"cartItems");
+    const [completed,setCompleted] = useState(false);
 
 
     const increaseQty = (item)=>{
@@ -17,6 +21,18 @@ const Cart = ({cartItems,setCartItems}) => {
         setCartItems((preState)=>preState.filter((cartItem)=>cartItem.product._id !== item.product._id))
       }
 
+      const handlePlaceOrder = async()=>{
+        try {
+            await axios.post(process.env.REACT_APP_API_URLP + "/orders", cartItems) 
+            setCartItems([]) 
+            setCompleted(true);
+            toast.success("Order Success!")
+        } catch (error) {
+            console.log(error)
+        }
+        
+        
+      }
 
   return (
      cartItems.length >0 ? <>
@@ -66,16 +82,17 @@ const Cart = ({cartItems,setCartItems}) => {
                 <div id="order_summary">
                     <h4>Order Summary</h4>
                     <hr />
-                    <p>Subtotal:  <span class="order-summary-values">1 (Units)</span></p>
-                    <p>Est. total: <span class="order-summary-values">$245.67</span></p>
+                    <p>Subtotal:  <span class="order-summary-values">{cartItems.reduce((pre,curr)=> pre+curr.qty,0)} (Units)</span></p>
+                    <p>Est. total: <span class="order-summary-values">${cartItems.reduce((pev,cur)=> (pev +(cur.qty * cur.product.price)),0)}</span></p>
     
                     <hr />
-                    <button id="checkout_btn" class="btn btn-primary btn-block">Place Order</button>
+                    <button id="checkout_btn" class="btn btn-primary btn-block" onClick={handlePlaceOrder}>Place Order</button>
                 </div>
             </div>
         </div>
     </div>
-    </>:<h2>Cart items is empty!</h2>
+    </>: completed?<> <h2 className='mt-5'>Your Order has Completed!</h2>
+    <p>Your order has placed succesfully.</p></>:<h2>Cart items is empty!</h2>
   );
 };
 
