@@ -83,7 +83,7 @@ const Cart = ({cartItems,setCartItems}) => {
                     <h4>Order Summary</h4>
                     <hr />
                     <p>Subtotal:  <span class="order-summary-values">{cartItems.reduce((pre,curr)=> pre+curr.qty,0)} (Units)</span></p>
-                    <p>Est. total: <span class="order-summary-values">${cartItems.reduce((pev,cur)=> (pev +(cur.qty * cur.product.price)),0)}</span></p>
+                    <p>Est. total: <span class="order-summary-values">${cartItems.reduce((pev,cur)=> (pev +(cur.qty * cur.product.price)),0).toFixed(2)}</span></p>
     
                     <hr />
                     <button id="checkout_btn" class="btn btn-primary btn-block" onClick={handlePlaceOrder}>Place Order</button>
