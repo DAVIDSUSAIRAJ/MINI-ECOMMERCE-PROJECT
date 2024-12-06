@@ -86,6 +86,7 @@ const decreaseQty = ()=>{
                 id="cart_btn"
                 class="btn btn-primary d-inline ml-4"
                 onClick={addToCart}
+                disabled = {product.stock <= 0?true:false}
               >
                 Add to Cart
               </button>
