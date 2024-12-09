@@ -8,7 +8,7 @@ const Header = ({cartItems}) => {
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
             <Link to="/">
-            <img width="150px" src="../images/logo.png" alt="LogoImg" />
+            <img width="50px" src="../images/david_ec_logo.png" alt="LogoImg" />
             </Link>
           </div>
         </div>

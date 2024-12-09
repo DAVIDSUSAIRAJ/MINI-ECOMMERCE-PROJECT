@@ -1,11 +1,21 @@
 import axios from "axios"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast} from "react-toastify"; // Import Toast
 
 const Cart = ({cartItems,setCartItems}) => {
     console.log(cartItems,"cartItems");
     const [completed,setCompleted] = useState(false);
+
+    useEffect(()=>{
+    if (cartItems.length  > 0) {
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        
+    }else if(cartItems.length  === 0){
+       const localStorageCartItem= localStorage.getItem("cartItems")
+       setCartItems(JSON.parse(localStorageCartItem))
+    }
+    },[])
 
 
     const increaseQty = (item)=>{
@@ -27,6 +37,7 @@ const Cart = ({cartItems,setCartItems}) => {
             setCartItems([]) 
             setCompleted(true);
             toast.success("Order Success!")
+            localStorage.setItem("cartItems", JSON.stringify([]));
         } catch (error) {
             console.log(error)
         }
