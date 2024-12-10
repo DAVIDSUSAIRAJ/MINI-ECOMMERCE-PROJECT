@@ -2,10 +2,13 @@ import axios from "axios"
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast} from "react-toastify"; // Import Toast
+import Email from "./Email";
 
 const Cart = ({cartItems,setCartItems}) => {
     console.log(cartItems,"cartItems");
     const [completed,setCompleted] = useState(false);
+    const[popup,setPopup] = useState(false);
+    const [isExistiuser,setIsExistingUser] = useState(false);
 
     useEffect(()=>{
     if (cartItems.length  > 0) {
@@ -32,15 +35,20 @@ const Cart = ({cartItems,setCartItems}) => {
       }
 
       const handlePlaceOrder = async()=>{
-        try {
-            await axios.post(process.env.REACT_APP_API_URLP + "/orders", cartItems) 
-            setCartItems([]) 
-            setCompleted(true);
-            toast.success("Order Success!")
-            localStorage.setItem("cartItems", JSON.stringify([]));
-        } catch (error) {
-            console.log(error)
-        }
+
+      setPopup(true);
+
+
+
+        // try {
+        //     await axios.post(process.env.REACT_APP_API_URLP + "/orders", cartItems) 
+        //     setCartItems([]) 
+        //     setCompleted(true);
+        //     toast.success("Order Success!")
+        //     localStorage.setItem("cartItems", JSON.stringify([]));
+        // } catch (error) {
+        //     console.log(error)
+        // }
         
         
       }
@@ -98,6 +106,9 @@ const Cart = ({cartItems,setCartItems}) => {
     
                     <hr />
                     <button id="checkout_btn" class="btn btn-primary btn-block" onClick={handlePlaceOrder}>Place Order</button>
+                    {
+                      popup &&  <Email setIsExistingUser={setIsExistingUser} popup={popup} setPopup={setPopup}/>
+                    }
                 </div>
             </div>
         </div>
