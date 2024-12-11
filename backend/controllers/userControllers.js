@@ -1,6 +1,18 @@
 const mongoose = require("mongoose");
 const usersModel = require("../models/userModel");
 
+const getSingleUser = async (req, res, next) => {
+  try {
+    const user = await usersModel.findOne(req.params)
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400);
+    res.json({ message: error.message });
+  }
+
+}
+
+
 const getUser = async (req, res, next) => {
   let userEmail = req.body;
   try {
@@ -32,4 +44,5 @@ const createUser = async (req, res, next) => {
 module.exports = {
   createUser,
   getUser,
+  getSingleUser,
 };

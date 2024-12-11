@@ -39,8 +39,17 @@ const Email = ({ setIsExistingUser, popup, setPopup,hunderApiKey}) => {
     }
   };
 
-  const handleClickConfirm = () => {
-    // localStorage.getItem("email")
+  const handleClickConfirm = async() => {
+    try {
+      let user = await axios.get(
+          process.env.REACT_APP_API_URLP + "/users/davidsusairaj1996@gmail.com"
+      );
+      console.log(user)
+      // setProducts(productsCard.data);
+  } catch (error) {
+      console.error("Error fetching products:", error);
+  }
+
     setIsExistingUser(true);
     handleClose();
   };
