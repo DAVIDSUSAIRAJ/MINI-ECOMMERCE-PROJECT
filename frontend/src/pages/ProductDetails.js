@@ -6,7 +6,7 @@ import { toast} from "react-toastify"; // Import Toast
 const ProductDetails = ({cartItems, setCartItems}) => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
-  const [qty,setQty] = useState(1)
+  const [qty,setQty] = useState(0)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -34,11 +34,20 @@ const addToCart =()=>{
 
 }
 const increaseQty = ()=>{
+  if(!product.stock <= 0){
+    toast.error("Out of stock");
+    return;
+  }
+
   if(Number(product.stock) === qty)return;
   setQty((qty)=>qty+1)
 }
 const decreaseQty = ()=>{
-  if(qty === 1)return;
+  if(!product.stock <= 0){
+    toast.error("Out of stock");
+    return;
+  }
+  if(qty === 0)return;
   setQty((qty)=>qty-1)
 }
 
