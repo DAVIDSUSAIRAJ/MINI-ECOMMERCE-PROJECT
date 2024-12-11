@@ -2,17 +2,14 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const Email = ({ setIsExistingUser, popup, setPopup }) => {
+const Email = ({ setIsExistingUser, popup, setPopup,hunderApiKey}) => {
   const [email, setEmail] = useState("");
   const handleClose = () => setPopup(false);
 
   const verifyEmail = async (email) => {
-    let getKey = process.env.REACT_APP_HUNTER_KEY;
-    console.log(getKey, "getKeyyyy");
-
     try {
       const response = await axios.get(
-        `https://api.hunter.io/v2/email-verifier?email=${email}&api_key=ad4d5d06aeb363be436e7b1d42724db1765e96df`
+        `https://api.hunter.io/v2/email-verifier?email=${email}&api_key=${hunderApiKey}`
       );
       return response.data;
     } catch (error) {
@@ -37,11 +34,13 @@ const Email = ({ setIsExistingUser, popup, setPopup }) => {
     if (result.data.status === "invalid") {
       warningMsg();
     } else {
+      localStorage.setItem("email", email);
       toast.success("You can place an order.", { autoClose: 3000 });
     }
   };
 
   const handleClickConfirm = () => {
+    // localStorage.getItem("email")
     setIsExistingUser(true);
     handleClose();
   };

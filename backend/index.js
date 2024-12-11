@@ -21,9 +21,11 @@ mongoose.connect(process.env.MONGODB_URI).then(()=>{
 }).catch((error)=>console.log(error))
 const productsRoute = require("./routers/productsRouter");
 const ordersRoute = require("./routers/ordersRouter");
+const usersRoute = require("./routers/usersRouter");
 
 
 app.use("/ecommerce_prod/products",productsRoute)
 app.use("/ecommerce_prod/orders",ordersRoute)
+app.use("/ecommerce_prod/users",usersRoute)
 // app.use("/databaseName/collectionName",taskRoute)
 //if databaseName is not there monogoose will create a database with the name of collectionName

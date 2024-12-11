@@ -9,6 +9,8 @@ const Cart = ({cartItems,setCartItems}) => {
     const [completed,setCompleted] = useState(false);
     const[popup,setPopup] = useState(false);
     const [isExistiuser,setIsExistingUser] = useState(false);
+    const hunderApiKey = process.env.REACT_APP_HUNTER_API_KEY
+
 
     useEffect(()=>{
     if (cartItems.length  > 0) {
@@ -107,7 +109,7 @@ const Cart = ({cartItems,setCartItems}) => {
                     <hr />
                     <button id="checkout_btn" class="btn btn-primary btn-block" onClick={handlePlaceOrder}>Place Order</button>
                     {
-                      popup &&  <Email setIsExistingUser={setIsExistingUser} popup={popup} setPopup={setPopup}/>
+                      popup &&  <Email setIsExistingUser={setIsExistingUser} popup={popup} setPopup={setPopup} hunderApiKey = {hunderApiKey}/>
                     }
                 </div>
             </div>
