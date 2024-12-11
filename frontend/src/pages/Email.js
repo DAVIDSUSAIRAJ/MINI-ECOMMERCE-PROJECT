@@ -73,19 +73,7 @@ const Email = ({ setIsExistingUser, popup, setPopup }) => {
                 </button>
               </div>
               <div className="modal-body">
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <p className="mb-0">
-                    If already registered, just click&nbsp;
-                    <strong>Confirm</strong>.
-                  </p>
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={handleClickConfirm}
-                  >
-                    Confirm
-                  </button>
-                </div>
+
                 <div className="form-group">
                   <label htmlFor="emailInput" className="form-label">
                     Enter your email address
@@ -99,6 +87,20 @@ const Email = ({ setIsExistingUser, popup, setPopup }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
+                  
+                </div>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <p className="mb-0">
+                    If already registered, just click&nbsp;
+                    <strong>Confirm</strong>.
+                  </p>
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={handleClickConfirm}
+                  >
+                    Confirm
+                  </button>
                 </div>
               </div>
               <div className="modal-footer">
