@@ -38,19 +38,20 @@ const Cart = ({cartItems,setCartItems}) => {
 
       const handlePlaceOrder = async()=>{
 
-      setPopup(true);
-
-
-
-        // try {
-        //     await axios.post(process.env.REACT_APP_API_URLP + "/orders", cartItems) 
-        //     setCartItems([]) 
-        //     setCompleted(true);
-        //     toast.success("Order Success!")
-        //     localStorage.setItem("cartItems", JSON.stringify([]));
-        // } catch (error) {
-        //     console.log(error)
-        // }
+       let email = localStorage.getItem("email");
+       if(!email){
+        setPopup(true)
+        return;
+       }
+        try {
+            await axios.post(process.env.REACT_APP_API_URLP + "/orders", cartItems) 
+            setCartItems([]) 
+            setCompleted(true);
+            toast.success("Order Success!")
+            localStorage.setItem("cartItems", JSON.stringify([]));
+        } catch (error) {
+            console.log(error)
+        }
         
         
       }

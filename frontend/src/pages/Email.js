@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const Email = ({ setIsExistingUser, popup, setPopup,hunderApiKey}) => {
+const Email = ({ setIsExistingUser, popup, setPopup, hunderApiKey }) => {
   const [email, setEmail] = useState("");
   const handleClose = () => setPopup(false);
 
@@ -18,9 +18,12 @@ const Email = ({ setIsExistingUser, popup, setPopup,hunderApiKey}) => {
   };
 
   const warningMsg = () => {
-    toast.warning("Your email is not valid, please enter a valid email address!", {
-      autoClose: 3000,
-    });
+    toast.warning(
+      "Your email is not valid, please enter a valid email address!",
+      {
+        autoClose: 3000,
+      }
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -39,19 +42,34 @@ const Email = ({ setIsExistingUser, popup, setPopup,hunderApiKey}) => {
     }
   };
 
-  const handleClickConfirm = async() => {
-    try {
-      let user = await axios.get(
-          process.env.REACT_APP_API_URLP + "/users/davidsusairaj1996@gmail.com"
-      );
-      console.log(user)
-      // setProducts(productsCard.data);
-  } catch (error) {
-      console.error("Error fetching products:", error);
-  }
+  const handleClickConfirm = async () => {
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!isValidEmail) {
+      warningMsg();
+      return;
+    }
+    const result = await verifyEmail(email);
+    if (result.data.status === "invalid") {
+      warningMsg();
+    } else {
+      try {
+        let user = await axios.get(
+          process.env.REACT_APP_API_URLP + "/users/" + email.trim()
+        );
+        if (user.status === 200) {
+          localStorage.setItem("email", email);
+          toast.success(" Yes! already registered,You can place an order.", {
+            autoClose: 3000,
+          });
+          handleClose();
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
 
-    setIsExistingUser(true);
-    handleClose();
+      setIsExistingUser(true);
+      handleClose();
+    }
   };
 
   return (
@@ -81,7 +99,6 @@ const Email = ({ setIsExistingUser, popup, setPopup,hunderApiKey}) => {
                 </button>
               </div>
               <div className="modal-body">
-
                 <div className="form-group">
                   <label htmlFor="emailInput" className="form-label">
                     Enter your email address
@@ -95,7 +112,6 @@ const Email = ({ setIsExistingUser, popup, setPopup,hunderApiKey}) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <p className="mb-0">
