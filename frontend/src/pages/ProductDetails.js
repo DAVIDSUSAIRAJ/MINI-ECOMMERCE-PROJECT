@@ -6,7 +6,7 @@ import { toast} from "react-toastify"; // Import Toast
 const ProductDetails = ({cartItems, setCartItems}) => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
-  const [qty,setQty] = useState(0)
+  const [qty,setQty] = useState(1)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -34,20 +34,11 @@ const addToCart =()=>{
 
 }
 const increaseQty = ()=>{
-  if(!product.stock <= 0){
-    toast.error("Out of stock");
-    return;
-  }
-
   if(Number(product.stock) === qty)return;
   setQty((qty)=>qty+1)
 }
 const decreaseQty = ()=>{
-  if(!product.stock <= 0){
-    toast.error("Out of stock");
-    return;
-  }
-  if(qty === 0)return;
+  if(qty === 1)return;
   setQty((qty)=>qty-1)
 }
 
@@ -79,7 +70,7 @@ const decreaseQty = ()=>{
 
               <p id="product_price">{product.price}</p>
               <div class="stockCounter d-inline">
-                <span class="btn btn-danger minus" onClick={decreaseQty}>-</span>
+                <button   disabled = {product.stock <= 0?true:false} class="btn btn-danger minus" onClick={decreaseQty}>-</button>
 
                 <input
                   type="number"
@@ -88,7 +79,7 @@ const decreaseQty = ()=>{
                   readOnly
                 />
 
-                <span class="btn btn-primary plus" onClick={increaseQty}>+</span>
+                <button   disabled = {product.stock <= 0?true:false} class="btn btn-primary plus" onClick={increaseQty}>+</button>
               </div>
               <button
                 type="button"
