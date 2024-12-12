@@ -40,6 +40,7 @@ const Email = ({ setIsExistingUser, popup, setPopup, hunderApiKey }) => {
       localStorage.setItem("email", email);
       toast.success("You can place an order.", { autoClose: 3000 });
     }
+    handleClose();
   };
 
   const handleClickConfirm = async () => {
@@ -56,19 +57,23 @@ const Email = ({ setIsExistingUser, popup, setPopup, hunderApiKey }) => {
         let user = await axios.get(
           process.env.REACT_APP_API_URLP + "/users/" + email.trim()
         );
-        if (user.status === 200) {
+        if (user.data) {
           localStorage.setItem("email", email);
           toast.success(" Yes! already registered,You can place an order.", {
             autoClose: 3000,
           });
+          setIsExistingUser(true);
           handleClose();
+        }else if(!user.data){
+          toast.error(" Sorry! unable to find, you can click Submit.", {
+            autoClose: 3000,
+          });
         }
       } catch (error) {
         console.error("Error fetching products:", error);
       }
 
-      setIsExistingUser(true);
-      handleClose();
+
     }
   };
 
